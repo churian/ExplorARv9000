@@ -1,5 +1,6 @@
 package explorar.explorarv9000;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -18,6 +19,11 @@ public class DbCreation extends SQLiteOpenHelper {
 
     public DbCreation (Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
+    }
+
+    public DbCreation(Context context)
+    {
+        super(context, DATABASE_NAME , null , DATABASE_VERSION);
     }
 
     // creates the initial table by running the sql query "SQL_CREATE_STUDENT_TABLE"
@@ -45,6 +51,17 @@ public class DbCreation extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_ORGANISATIONS_TABLE);
 
     }
+
+    @Override
+    public void insertOrgansation(organisation o)
+    {
+        app.db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put();
+
+    }
+
+
     // drops the current table and creates a new one when a new version is updated
     @Override
     public void onUpgrade (SQLiteDatabase sqLiteDatabase, int i, int i1) {
