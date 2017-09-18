@@ -13,14 +13,11 @@
     <!-- Login progress -->
 
     <ImageView
-        android:id="@+id/logo"
-        android:layout_width="128dp"
-        android:layout_height="104dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="30dp"
-        app:srcCompat="@drawable/icon_1" />
+        android:id="@+id/imageView2"
+        android:layout_marginBottom="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_logo_vertical_01" />
 
     <TextView
         android:id="@+id/Welcome"
@@ -29,8 +26,9 @@
         android:layout_marginBottom="30dp"
         android:fontFamily="sans-serif"
         android:lineSpacingExtra="10sp"
-        android:text="Welcome To ExplorAR"
+        android:text="Welcome"
         android:textAlignment="center"
+        android:textColor="@android:color/black"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -57,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
-        android:background="#00B6AE"
+        android:background="@color/colorPrimary"
         android:text="Login"
         android:textColor="@android:color/white" />
 

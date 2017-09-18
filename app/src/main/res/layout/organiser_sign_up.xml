@@ -14,15 +14,10 @@
     <!-- Login progress -->
 
     <ImageView
-        android:id="@+id/logo"
-        android:layout_width="128dp"
-        android:layout_height="74dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_weight="0.41"
-        app:srcCompat="@drawable/icon_1" />
+        android:id="@+id/imageView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_logo_vertical_01" />
 
     <TextView
         android:id="@+id/signupheader"
@@ -34,6 +29,7 @@
         android:lineSpacingExtra="24sp"
         android:text="Sign Up To ExplorAR"
         android:textAlignment="center"
+        android:textColor="@android:color/black"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -44,7 +40,7 @@
         android:layout_marginBottom="15dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Organisation" />
+        android:hint="Organisation Name" />
 
     <EditText
         android:id="@+id/email"
@@ -54,6 +50,7 @@
         android:ems="10"
         android:hint="E-mail"
         android:inputType="textEmailAddress" />
+
 
     <EditText
         android:id="@+id/password"
@@ -65,13 +62,12 @@
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/organiser_signup"
+        android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:background="#00B6AE"
-        android:text="SIGN UP"
-        android:textColor="@android:color/white" />
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        tools:text="@string/signup" />
 
     <ProgressBar
         android:id="@+id/login_progress"
