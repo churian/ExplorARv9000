@@ -1,10 +1,13 @@
 package explorar.explorarv9000;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 import android.app.Activity;
+
+import model.StudentModel;
 
 /**
  * Created by benja on 17/09/2017.
@@ -20,7 +23,12 @@ public class DbCreation extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
-    // creates the initial table by running the sql query "SQL_CREATE_STUDENT_TABLE"
+    public DbCreation(Context context)
+    {
+        super(context, DATABASE_NAME , null , DATABASE_VERSION);
+    }
+
+    // creates the database tables by running the sql queries e.g. "SQL_CREATE_STUDENT_TABLE"
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String SQL_CREATE_STUDENT_TABLE = "CREATE TABLE " +
@@ -44,7 +52,24 @@ public class DbCreation extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_STUDENT_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_ORGANISATIONS_TABLE);
 
+     }
+    // insert a new student row
+    public void insertStudent(StudentModel s) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DbContracts.studentDBentry.COLUMN_zID, s.getzID());
+        values.put(DbContracts.studentDBentry.COLUMN_NAME_STUDENT, s.getName());
+        values.put(DbContracts.studentDBentry.COLUMN_PASSWORD_STUDENT, s.getPassword());
+        values.put(DbContracts.studentDBentry.COLUMN_EMAIL_STUDENT, s.getEmail());
+        values.put(DbContracts.studentDBentry.COLUMN_DEGREE_STUDENT, s.getDegree());
+
+        db.insert(DbContracts.studentDBentry.TABLE_NAME, null, values);
+        db.close();
+        // db.update(DbContracts.studentDBentry.TABLE_NAME, values, COLUMN_USER_ID + " = ?",
+        //      new String[]{String.valueOf(s.getzID())});
+
     }
+
     // drops the current table and creates a new one when a new version is updated
     @Override
     public void onUpgrade (SQLiteDatabase sqLiteDatabase, int i, int i1) {
