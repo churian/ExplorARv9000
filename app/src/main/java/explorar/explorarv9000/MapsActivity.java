@@ -19,6 +19,7 @@ import com.google.android.gms.common.ConnectionResult;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 
 import com.google.android.gms.location.LocationServices;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
@@ -41,7 +43,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int DEFAULT_ZOOM = 15;
 
 
-//    private FusedLocationProviderClient mFusedLocationClient;
+    private FusedLocationProviderClient mFusedLocationClient;
     private Location mCurrentlocation;
 //    private LocationCallback mLocationCallback;
 
@@ -136,6 +138,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Setting Toast to appear on location button click
         mMap.setOnMyLocationButtonClickListener(this);
 
+
+//                //Create location service client
+//        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+////
+//        //Getting last known Location and storing it in a Location object
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            //Permission check failed
+//            Toast permissionsToast = new Toast(this);
+//            permissionsToast = Toast.makeText(this, "No permissions", Toast.LENGTH_LONG);
+//            permissionsToast.show();
+//            return;
+//        } else {
+//            mFusedLocationClient.getLastLocation()
+//                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+//
+//                        @Override
+//                        public void onSuccess(Location location) {
+//                            //Got last known location. In some rare situations this can be null
+//                            if (location != null) {
+//                                //Logic to handle location object - generate toast
+//                                Toast.makeText(getBaseContext(), "the last location is" + location, Toast.LENGTH_LONG).show();
+//
+//                                //Set last known location to current location
+//                                mCurrentlocation = location;
+//
+//                            }
+//                        }
+//                    });
+//        }
+//        //Plotting last known location into map
+//        handleNewLocation(mCurrentlocation);
+
     }
 
     @Override  //Defines what happens when you click the location button
@@ -170,6 +204,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //            } else {
 //                handleNewLocation(location);
 //            }
+            handleNewLocation(mCurrentlocation);
+
 
         }
     }
@@ -247,34 +283,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mCurrLocationMarker = mMap.addMarker(markerOptions);
 
 
-//        //Create location service client
-//        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-////
-//        //Getting last known Location and storing it in a Location object
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            //Permission check failed
-//            Toast permissionsToast = new Toast(this);
-//            permissionsToast = Toast.makeText(this, "No permissions", Toast.LENGTH_LONG);
-//            permissionsToast.show();
-//            return;
-//        } else {
-//            mFusedLocationClient.getLastLocation()
-//                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-//
-//                        @Override
-//                        public void onSuccess(Location location) {
-//                            //Got last known location. In some rare situations this can be null
-//                            if (location != null) {
-//                                //Logic to handle location object - generate toast
-//                                Toast.makeText(getBaseContext(), "the last location is" + location, Toast.LENGTH_LONG).show();
-//
-//                                //Set last known location to current location
-//                                mLastKnownLocation = location;
-//
-//                            }
-//                        }
-//                    });
-//        }
+
 //
 
 --in oncreate--
