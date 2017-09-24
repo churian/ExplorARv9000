@@ -6,6 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:navigationBarColor">@android:color/background_dark</item>
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
     </style>
+
+    <style name="Theme.AppCompat.Light.NoActionBar.Light.NoActionBar" parent="android:Theme.Material.Light.NoActionBar" />
 
 </resources>
