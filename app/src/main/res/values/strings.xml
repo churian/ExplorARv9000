@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">ExplorARv9000</string>
+    <string name="go_event">Go Event</string>
+    <string name="signup">Sign Up</string>
+    <string name="login">Log In</string>
+    <string name="event_name">SQL Workshop 101</string>
+    <string name="event_organiser">BITSA</string>
+    <string name="event_address">Quad Room 2025</string>
+    <string name="event_time">12:00pm-2:00pm</string>
+    <string name="event_price">Free</string>
+    <string name="event_type">Workshop</string>
+    <string name="event_description">This is a great beginners workshop for anyone that wants to learn SQL and create databases.</string>
     <string name="text_accounts">All Accounts</string>
     <string name="hint_name">Full name</string>
     <string name="hint_zID">zID</string>
