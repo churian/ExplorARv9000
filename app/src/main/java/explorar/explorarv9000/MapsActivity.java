@@ -210,8 +210,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(this, "Marker clicked - Example event A screen is opened", Toast.LENGTH_LONG).show();
 
             //Intent to open example event A event details activity
-            Intent intent = new Intent(MapsActivity.this, EventDetailsActivity.class);
-            startActivity(intent);
+            Intent openEventDetailsIntent = new Intent(MapsActivity.this, EventDetailsActivity.class);
+            startActivity(openEventDetailsIntent);
 
         }
         //TODO: repeat for other event titles
@@ -223,7 +223,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onInfoWindowClick(Marker marker) {
         //TODO: Make this the same as onMarkerClick
         Toast.makeText(this, "IW clicked - Example event A  is opened", Toast.LENGTH_LONG).show();
-
     }
 
     @Override  //Defines what happens when you click the location button
