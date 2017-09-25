@@ -57,6 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -197,21 +198,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             return;
         } else {
-
-            mCurrentlocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-//            if (location == null) {
+            if (LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient) != null) {
+                mCurrentlocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                //            if (location == null) {
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 //            } else {
 //                handleNewLocation(location);
 //            }
-            handleNewLocation(mCurrentlocation);
+                handleNewLocation(mCurrentlocation);
+            } else{
+                Toast.makeText(this, "Location is null", Toast.LENGTH_LONG);
+            }
+
 
 
         }
     }
 
     private void handleNewLocation(Location location) {
-        Log.d(TAG, location.toString());
+//        Log.d(TAG, location.toString());
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(location.getLatitude(),
                         location.getLongitude()),
