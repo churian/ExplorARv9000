@@ -1,4 +1,4 @@
-package model;
+package explorar.explorarv9000;
 
 /**
  * Created by Kev on 17/9/17.

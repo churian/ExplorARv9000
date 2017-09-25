@@ -5,9 +5,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
-import android.app.Activity;
-
-import model.StudentModel;
 
 /**
  * Created by benja on 17/09/2017.
@@ -31,16 +28,6 @@ public class DbCreation extends SQLiteOpenHelper {
     // creates the database tables by running the sql queries e.g. "SQL_CREATE_STUDENT_TABLE"
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        final String SQL_CREATE_STUDENT_TABLE = "CREATE TABLE " +
-                DbContracts.studentDBentry.TABLE_NAME + " (" +
-                DbContracts.studentDBentry._ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                DbContracts.studentDBentry.COLUMN_zID + " TEXT NOT NULL, " +
-                DbContracts.studentDBentry.COLUMN_NAME_STUDENT + " TEXT NOT NULL, " +
-                DbContracts.studentDBentry.COLUMN_PASSWORD_STUDENT + " TEXT NOT NULL, " +
-                DbContracts.studentDBentry.COLUMN_EMAIL_STUDENT + " TEXT NOT NULL, " +
-                DbContracts.studentDBentry.COLUMN_DEGREE_STUDENT + "TEXT NOT NULL, " +
-                ");";
-
         final String SQL_CREATE_ORGANISATIONS_TABLE = "CREATE TABLE " +
                 DbContracts.organisationsDBentry .TABLE_NAME + " (" +
                 DbContracts.organisationsDBentry ._ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -48,26 +35,43 @@ public class DbCreation extends SQLiteOpenHelper {
                 DbContracts.organisationsDBentry .COLUMN_PASSWORD_ORG + " TEXT NOT NULL, " +
                 DbContracts.organisationsDBentry .COLUMN_EMAIL_ORG + " TEXT NOT NULL," +
                 ");";
-
-        sqLiteDatabase.execSQL(SQL_CREATE_STUDENT_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_ORGANISATIONS_TABLE);
-
      }
-    // insert a new student row
-    public void insertStudent(StudentModel s) {
+
+    public void insertOrganization(Organization s) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DbContracts.studentDBentry.COLUMN_zID, s.getzID());
-        values.put(DbContracts.studentDBentry.COLUMN_NAME_STUDENT, s.getName());
-        values.put(DbContracts.studentDBentry.COLUMN_PASSWORD_STUDENT, s.getPassword());
-        values.put(DbContracts.studentDBentry.COLUMN_EMAIL_STUDENT, s.getEmail());
-        values.put(DbContracts.studentDBentry.COLUMN_DEGREE_STUDENT, s.getDegree());
+        values.put(DbContracts.organisationsDBentry.COLUMN_NAME_ORG, s.getoName());
+        values.put(DbContracts.organisationsDBentry.COLUMN_PASSWORD_ORG, s.getoPassword());
+        values.put(DbContracts.organisationsDBentry.COLUMN_EMAIL_ORG, s.getoEmail());
 
-        db.insert(DbContracts.studentDBentry.TABLE_NAME, null, values);
+        db.insert(DbContracts.organisationsDBentry.TABLE_NAME, null, values);
         db.close();
         // db.update(DbContracts.studentDBentry.TABLE_NAME, values, COLUMN_USER_ID + " = ?",
         //      new String[]{String.valueOf(s.getzID())});
+    }
 
+    public void String searchPassword(String oName)
+    {
+        .this.getReadableDatabase();
+        String query = "select oName, oPassword from"+TABLE_NAME;
+        Cursor qursor = db.rawQuery(query, null);
+        String a, b;
+        b = "Not Found";
+        if(cursor.moveToFirst()))
+        {
+            do{
+                a = cursor.getString(0);
+                if(a.equals(oName))
+                {
+                    b = cursor.getString(1);
+                    break;
+                }
+
+            }
+            while(cursor.moveToNext());
+        }
+        return b;
     }
 
     // drops the current table and creates a new one when a new version is updated
