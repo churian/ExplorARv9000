@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 /**
  * Created by michaelliang on 25/9/17.
  */
@@ -29,11 +28,10 @@ public class EventDetailsActivity extends AppCompatActivity {
         DbCreation dbCreation = new DbCreation(this);
 
         //DB: Get readable reference of database and store it in mDb
-        mDb = dbCreation.getReadableDatabase();
+        mDb = dbCreation.getWritableDatabase();
 
         //DB: Insert Fake Data
         DBInsertFakeData.insertFakeData(mDb);
-
         //DB: call getEventName() and put it in a cursor variable
         Cursor cursor = getEventName();
 

@@ -33,36 +33,38 @@ public class DbCreation extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String SQL_CREATE_STUDENT_TABLE = "CREATE TABLE " +
                 DbContracts.studentDBentry.TABLE_NAME + " (" +
-                DbContracts.studentDBentry._ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DbContracts.studentDBentry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DbContracts.studentDBentry.COLUMN_zID + " TEXT NOT NULL, " +
                 DbContracts.studentDBentry.COLUMN_NAME_STUDENT + " TEXT NOT NULL, " +
                 DbContracts.studentDBentry.COLUMN_PASSWORD_STUDENT + " TEXT NOT NULL, " +
                 DbContracts.studentDBentry.COLUMN_EMAIL_STUDENT + " TEXT NOT NULL, " +
-                DbContracts.studentDBentry.COLUMN_DEGREE_STUDENT + "TEXT NOT NULL, " +
+                DbContracts.studentDBentry.COLUMN_DEGREE_STUDENT + "TEXT NOT NULL" +
                 ");";
 
         final String SQL_CREATE_ORGANISATIONS_TABLE = "CREATE TABLE " +
                 DbContracts.organisationsDBentry .TABLE_NAME + " (" +
-                DbContracts.organisationsDBentry ._ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DbContracts.organisationsDBentry ._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DbContracts.organisationsDBentry .COLUMN_NAME_ORG + " TEXT NOT NULL, " +
                 DbContracts.organisationsDBentry .COLUMN_PASSWORD_ORG + " TEXT NOT NULL, " +
-                DbContracts.organisationsDBentry .COLUMN_EMAIL_ORG + " TEXT NOT NULL," +
+                DbContracts.organisationsDBentry .COLUMN_EMAIL_ORG + " TEXT NOT NULL" +
                 ");";
+
+        //TODO: MIGHT NEED TO MAKE THIS A DATE FORMAT
 
         final String SQL_CREATE_EVENTS_TABLE = "CREATE TABLE " +
                 DbContracts.eventsDBentry .TABLE_NAME + " (" +
-                DbContracts.eventsDBentry ._ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DbContracts.eventsDBentry ._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DbContracts.eventsDBentry .COLUMN_NAME_EVENT + " TEXT NOT NULL, " +
                 DbContracts.eventsDBentry .COLUMN_NAME_HOSTORG + " TEXT NOT NULL, " +
                 DbContracts.eventsDBentry .COLUMN_LOCATION_EVENT + " TEXT NOT NULL," +
-                DbContracts.eventsDBentry .COLUMN_DATE_EVENT + " TEXT NOT NULL," + //TODO: MIGHT NEED TO MAKE THIS A DATE FORMAT
+                DbContracts.eventsDBentry .COLUMN_DATE_EVENT + " TEXT NOT NULL," +
                 DbContracts.eventsDBentry .COLUMN_STARTTIME_EVENT + " TEXT NOT NULL," +
                 DbContracts.eventsDBentry .COLUMN_ENDTIME_EVENT + " TEXT NOT NULL," +
                 DbContracts.eventsDBentry .COLUMN_PRICE_EVENT + " DOUBLE NOT NULL," +
                 DbContracts.eventsDBentry .COLUMN_NAME_DESCRIPTION + " TEXT NOT NULL, " +
                 DbContracts.eventsDBentry .COLUMN_LATITUDE_EVENT + " DOUBLE NOT NULL," +
                 DbContracts.eventsDBentry .COLUMN_LONGITUDE_EVENT + " DOUBLE NOT NULL," +
-                DbContracts.eventsDBentry .COLUMN_EVENT_TYPE + " TEXT NOT NULL," +
+                DbContracts.eventsDBentry .COLUMN_EVENT_TYPE + " TEXT NOT NULL" +
                 ");";
 
         sqLiteDatabase.execSQL(SQL_CREATE_STUDENT_TABLE);
