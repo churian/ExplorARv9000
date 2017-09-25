@@ -2,6 +2,7 @@ package explorar.explorarv9000;
 
 import android.Manifest;
 
+import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 
@@ -29,11 +30,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleApiClient mGoogleApiClient;
     public static final String TAG = MapsActivity.class.getSimpleName();
@@ -44,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     private FusedLocationProviderClient mFusedLocationClient;
-    private Location mCurrentlocation;
+    private Location mCurrentLocation;
 //    private LocationCallback mLocationCallback;
 
     private GoogleMap mMap;
@@ -57,6 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -122,12 +125,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //set default camera to UNSWlatlng and move the camera
         LatLng unswLatLng = new LatLng(-33.917378, 151.230205);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(unswLatLng));
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(14.0f)); //TODO: Make the zoom look pretty
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(14.0f));
         //TODO: Would be nice to twist the orientation as well so that you look up main walkway
 
-        // Add a marker in Sydney
-        LatLng sydney = new LatLng(-33.919728, 151.234095);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("This is an example event"));
+        //setting up OnMarkerClickListener
+        mMap.setOnMarkerClickListener(this);
+
+        //setting up OnInfoWindowClickListener
+        mMap.setOnInfoWindowClickListener(this);
+
+        //TODO: Markers that always show name (you need to create bitmap icons for this) and then when you click into it it pops up with the event details screen
+        // Add Marker A
+        LatLng markerALatLng = new LatLng(-33.919728, 151.234095);
+        Marker markerA = mMap.addMarker(new MarkerOptions()
+                .position(markerALatLng)
+                .title("This is an example event A")
+                .snippet("Event tag line"));
+        markerA.showInfoWindow();
+
+//        // Add Marker B
+//        LatLng markerBLatLng = new LatLng(-33.916688, 151.227765);
+//        Marker markerB = mMap.addMarker(new MarkerOptions()
+//                .position(markerBLatLng)
+//                .title("This is an example event B")
+//                .snippet("Event tag line"));
+//        markerB.showInfoWindow();
+
+
+//        // Add Marker C
+//        LatLng markerCLatLng = new LatLng(-33.919225, 151.230394);
+//        mMap.addMarker(new MarkerOptions()
+//                .position(markerCLatLng)
+//                .title("This is an example event C")
+//                );
 
         //Checking for location permissions and enabling current location or requesting necessary permissions
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_ACCESS_FINE_LOCATION);
@@ -172,6 +202,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+        String name= marker.getTitle();
+
+        if (name.equalsIgnoreCase("This is an example event A")) {
+            Toast.makeText(this, "Marker clicked - Example event A screen is opened", Toast.LENGTH_LONG).show();
+
+            //Intent to open example event A event details activity
+            Intent openEventDetailsIntent = new Intent(MapsActivity.this, EventDetailsActivity.class);
+            startActivity(openEventDetailsIntent);
+
+        }
+        //TODO: repeat for other event titles
+
+        return false;
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        //TODO: Make this the same as onMarkerClick
+        Toast.makeText(this, "IW clicked - Example event A  is opened", Toast.LENGTH_LONG).show();
+    }
+
     @Override  //Defines what happens when you click the location button
     public boolean onMyLocationButtonClick() {
         Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_LONG).show();
@@ -197,21 +250,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             return;
         } else {
-
-            mCurrentlocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-//            if (location == null) {
+            if (LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient) != null) {
+                mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                //            if (location == null) {
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 //            } else {
 //                handleNewLocation(location);
 //            }
-            handleNewLocation(mCurrentlocation);
+                handleNewLocation(mCurrentLocation);
+            } else {
+                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+                Toast.makeText(this, "getLastKnownLocation was null", Toast.LENGTH_LONG);
+            }
+
 
 
         }
     }
 
     private void handleNewLocation(Location location) {
-        Log.d(TAG, location.toString());
+//        Log.d(TAG, location.toString());
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng(location.getLatitude(),
                         location.getLongitude()),

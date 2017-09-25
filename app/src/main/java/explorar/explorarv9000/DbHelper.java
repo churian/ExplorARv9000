@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 import android.app.Activity;
 
-import model.StudentModel;
+import model.Student;
 
 /**
  * Created by benja on 17/09/2017.
@@ -15,15 +15,15 @@ import model.StudentModel;
 
 // this class is responsible for doing anything with the database
 
-public class DbCreation extends SQLiteOpenHelper {
+public class DbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1; //remember to update the version number when any database changes are made
     private static final String DATABASE_NAME = "app.db";
 
-    public DbCreation (Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
-    public DbCreation(Context context)
+    public DbHelper(Context context)
     {
         super(context, DATABASE_NAME , null , DATABASE_VERSION);
     }
@@ -49,20 +49,34 @@ public class DbCreation extends SQLiteOpenHelper {
                 DbContracts.organisationsDBentry .COLUMN_EMAIL_ORG + " TEXT NOT NULL," +
                 ");";
 
+        final String SQL_CREATE_EVENTS_TABLE = "CREATE TABLE " +
+                DbContracts.eventsDBentry .TABLE_NAME + " (" +
+                DbContracts.eventsDBentry ._ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DbContracts.eventsDBentry .COLUMN_NAME_EVENT + " TEXT NOT NULL, " +
+                DbContracts.eventsDBentry .COLUMN_NAME_HOSTORG + " TEXT NOT NULL, " +
+                DbContracts.eventsDBentry .COLUMN_LOCATION_EVENT + " TEXT NOT NULL," +
+                DbContracts.eventsDBentry .COLUMN_DATE_EVENT + " TEXT NOT NULL," +
+                DbContracts.eventsDBentry .COLUMN_TIME_EVENT + " TEXT NOT NULL," + //This needs to be a time range
+                DbContracts.eventsDBentry .COLUMN_PRICE_EVENT + " DOUBLE NOT NULL," +
+                DbContracts.eventsDBentry .COLUMN_NAME_DESCRIPTION + " TEXT NOT NULL, " +
+                DbContracts.eventsDBentry .COLUMN_LATITUDE_EVENT + " DOUBLE NOT NULL," +
+                DbContracts.eventsDBentry .COLUMN_LONGITUDE_EVENT + " DOUBLE NOT NULL," +
+                DbContracts.eventsDBentry .COLUMN_EVENT_TYPE + " TEXT NOT NULL," +
+                ");";
+
         sqLiteDatabase.execSQL(SQL_CREATE_STUDENT_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_ORGANISATIONS_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_EVENTS_TABLE);
 
      }
     // insert a new student row
-    public void insertStudent(StudentModel s) {
+    public void insertStudent(Student s) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DbContracts.studentDBentry.COLUMN_zID, s.getzID());
         values.put(DbContracts.studentDBentry.COLUMN_NAME_STUDENT, s.getName());
         values.put(DbContracts.studentDBentry.COLUMN_PASSWORD_STUDENT, s.getPassword());
         values.put(DbContracts.studentDBentry.COLUMN_EMAIL_STUDENT, s.getEmail());
-        values.put(DbContracts.studentDBentry.COLUMN_DEGREE_STUDENT, s.getDegree());
-
         db.insert(DbContracts.studentDBentry.TABLE_NAME, null, values);
         db.close();
         // db.update(DbContracts.studentDBentry.TABLE_NAME, values, COLUMN_USER_ID + " = ?",
