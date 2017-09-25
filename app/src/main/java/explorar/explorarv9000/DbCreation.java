@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 import android.app.Activity;
 
-import model.StudentModel;
+import model.Student;
 
 /**
  * Created by benja on 17/09/2017.
@@ -54,14 +54,13 @@ public class DbCreation extends SQLiteOpenHelper {
 
      }
     // insert a new student row
-    public void insertStudent(StudentModel s) {
+    public void insertStudent(Student s) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DbContracts.studentDBentry.COLUMN_zID, s.getzID());
         values.put(DbContracts.studentDBentry.COLUMN_NAME_STUDENT, s.getName());
         values.put(DbContracts.studentDBentry.COLUMN_PASSWORD_STUDENT, s.getPassword());
         values.put(DbContracts.studentDBentry.COLUMN_EMAIL_STUDENT, s.getEmail());
-        values.put(DbContracts.studentDBentry.COLUMN_DEGREE_STUDENT, s.getDegree());
 
         db.insert(DbContracts.studentDBentry.TABLE_NAME, null, values);
         db.close();
