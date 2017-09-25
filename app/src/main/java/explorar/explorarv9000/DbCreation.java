@@ -49,8 +49,24 @@ public class DbCreation extends SQLiteOpenHelper {
                 DbContracts.organisationsDBentry .COLUMN_EMAIL_ORG + " TEXT NOT NULL," +
                 ");";
 
+        final String SQL_CREATE_EVENTS_TABLE = "CREATE TABLE " +
+                DbContracts.eventsDBentry .TABLE_NAME + " (" +
+                DbContracts.eventsDBentry ._ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DbContracts.eventsDBentry .COLUMN_NAME_EVENT + " TEXT NOT NULL, " +
+                DbContracts.eventsDBentry .COLUMN_NAME_HOSTORG + " TEXT NOT NULL, " +
+                DbContracts.eventsDBentry .COLUMN_LOCATION_EVENT + " TEXT NOT NULL," +
+                DbContracts.eventsDBentry .COLUMN_DATE_EVENT + " TEXT NOT NULL," +
+                DbContracts.eventsDBentry .COLUMN_TIME_EVENT + " TEXT NOT NULL," + //This needs to be a time range
+                DbContracts.eventsDBentry .COLUMN_PRICE_EVENT + " DOUBLE NOT NULL," +
+                DbContracts.eventsDBentry .COLUMN_NAME_DESCRIPTION + " TEXT NOT NULL, " +
+                DbContracts.eventsDBentry .COLUMN_LATITUDE_EVENT + " DOUBLE NOT NULL," +
+                DbContracts.eventsDBentry .COLUMN_LONGITUDE_EVENT + " DOUBLE NOT NULL," +
+                DbContracts.eventsDBentry .COLUMN_EVENT_TYPE + " TEXT NOT NULL," +
+                ");";
+
         sqLiteDatabase.execSQL(SQL_CREATE_STUDENT_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_ORGANISATIONS_TABLE);
+        sqLiteDatabase.execSQL(SQL_CREATE_EVENTS_TABLE);
 
      }
     // insert a new student row
@@ -61,7 +77,6 @@ public class DbCreation extends SQLiteOpenHelper {
         values.put(DbContracts.studentDBentry.COLUMN_NAME_STUDENT, s.getName());
         values.put(DbContracts.studentDBentry.COLUMN_PASSWORD_STUDENT, s.getPassword());
         values.put(DbContracts.studentDBentry.COLUMN_EMAIL_STUDENT, s.getEmail());
-
         db.insert(DbContracts.studentDBentry.TABLE_NAME, null, values);
         db.close();
         // db.update(DbContracts.studentDBentry.TABLE_NAME, values, COLUMN_USER_ID + " = ?",

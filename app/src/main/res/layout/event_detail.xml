@@ -74,6 +74,21 @@
                 android:textColor="@android:color/black"/>
 
         <TextView
+            android:id="@+id/event_date_title"
+            android:layout_gravity="left|top"
+            android:layout_width="80dp"
+            android:text="Date"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/event_date"
+            android:layout_gravity="left|top"
+            android:layout_width="200dp"
+            android:text="@string/event_date"
+            android:textColor="@android:color/black"/>
+
+        <TextView
                 android:id="@+id/event_time_title"
                 android:layout_gravity="left|top"
                 android:layout_width="80dp"

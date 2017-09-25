@@ -33,12 +33,17 @@ public final class DbContracts {
         public static final String TABLE_NAME = "eventsDB";
         public static final String COLUMN_NAME_EVENT = "eventName";
         public static final String COLUMN_NAME_HOSTORG = "hostOrganisation";
-        public static final String COLUMN_EVENT_TYPE = "eventType";
         public static final String COLUMN_LOCATION_EVENT = "eventLocation";
         public static final String COLUMN_DATE_EVENT = "eventDate";
         public static final String COLUMN_TIME_EVENT = "eventTime";
+        public static final String COLUMN_PRICE_EVENT = "eventTime";
+        public static final String COLUMN_NAME_DESCRIPTION = "eventTime";
+        public static final String COLUMN_LATITUDE_EVENT = "eventTime";
+        public static final String COLUMN_LONGITUDE_EVENT = "eventTime";
+        public static final String COLUMN_EVENT_TYPE = "eventType";
+
 
     }
-    //image db and temporary cache for google markers
+    //TODO: image db and temporary cache for google markers
 
 }

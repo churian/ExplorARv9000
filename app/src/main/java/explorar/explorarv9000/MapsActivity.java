@@ -140,7 +140,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Marker markerA = mMap.addMarker(new MarkerOptions()
                 .position(markerALatLng)
                 .title("This is an example event A")
-                .snippet("Event tag line")); //TODO: Make sure tha Carreg knows that he has to include this field in the DB
+                .snippet("Event tag line"));
         markerA.showInfoWindow();
 
 //        // Add Marker B
