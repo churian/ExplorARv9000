@@ -26,12 +26,13 @@ public class EventDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.event_detail);
 
         //DB: Create helper instance
-        DbHelper dbHelper = new DbHelper(this);
+        DbCreation dbCreation = new DbCreation(this);
 
         //DB: Get readable reference of database and store it in mDb
-        mDb = dbHelper.getReadableDatabase();
+        mDb = dbCreation.getReadableDatabase();
 
-        //TODO: Must insert fake data
+        //DB: Insert Fake Data
+        DBInsertFakeData.insertFakeData(mDb);
 
         //DB: call getEventName() and put it in a cursor variable
         Cursor cursor = getEventName();
@@ -48,7 +49,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "event_detail_button is clicked", Toast.LENGTH_LONG).show();
 
                 //Build URI TODO: Update this so that it pulls from db build URI
-                Uri latLngIntentUri = Uri.parse("http://maps.google.com/maps?daddr=-33.919728, 151.234095(Tyree Room A)");
+                Uri latLngIntentUri = Uri.parse("http://maps.google.com/maps?daddr=-33.919728, 151.234095(UNSW Business School G26)");
 
                 //Intent to open up Google Maps with directions
                 Intent openMapintent = new Intent(Intent.ACTION_VIEW, latLngIntentUri);
