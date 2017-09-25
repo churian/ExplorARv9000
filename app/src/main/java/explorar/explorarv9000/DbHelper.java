@@ -15,15 +15,15 @@ import model.Student;
 
 // this class is responsible for doing anything with the database
 
-public class DbCreation extends SQLiteOpenHelper {
+public class DbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1; //remember to update the version number when any database changes are made
     private static final String DATABASE_NAME = "app.db";
 
-    public DbCreation (Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
-    public DbCreation(Context context)
+    public DbHelper(Context context)
     {
         super(context, DATABASE_NAME , null , DATABASE_VERSION);
     }
