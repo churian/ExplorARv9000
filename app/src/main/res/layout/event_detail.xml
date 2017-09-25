@@ -6,10 +6,14 @@
               android:layout_height="match_parent"
               android:weightSum="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="192dp"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal">
+
+
+    </LinearLayout>
 
 
     <LinearLayout
