@@ -10,16 +10,6 @@ import java.util.Date;
 
 public final class DbContracts {
 
-
-
-    // student database contract
-    public static class studentDBentry implements BaseColumns { // implementing BaseColumns automatically creates a unique id for each entry
-        public static final String TABLE_NAME = "studentDB";
-        public static final String COLUMN_zID = "zID";
-        public static final String COLUMN_NAME_STUDENT = "studentFullName";
-        protected static final String COLUMN_PASSWORD_STUDENT = "studentPassword";
-        public static final String COLUMN_EMAIL_STUDENT = "studentEmail";
-        public static final String COLUMN_DEGREE_STUDENT = "studentDegree";
     }
     // organisation database contract
     public static class organisationsDBentry implements BaseColumns {
