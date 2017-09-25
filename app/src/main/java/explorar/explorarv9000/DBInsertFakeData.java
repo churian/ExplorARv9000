@@ -22,7 +22,7 @@ public class DBInsertFakeData {
             List<ContentValues> list = new ArrayList<ContentValues>();
 
             ContentValues cv = new ContentValues();
-            cv.put(DbContracts.eventsDBentry.COLUMN_NAME_EVENT, "SQL Workshop 1");
+            cv.put(DbContracts.eventsDBentry.COLUMN_NAME_EVENT, "SQL Workshop 101");
             cv.put(DbContracts.eventsDBentry.COLUMN_NAME_HOSTORG, "BITSA UNSW");
             cv.put(DbContracts.eventsDBentry.COLUMN_LOCATION_EVENT, "UNSW Business School G26");
             cv.put(DbContracts.eventsDBentry.COLUMN_DATE_EVENT, "2nd August 2017");

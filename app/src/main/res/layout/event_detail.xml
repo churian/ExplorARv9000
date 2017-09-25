@@ -17,31 +17,31 @@
 
 
     <LinearLayout
-            android:id="@+id/eventheader"
+        android:id="@+id/eventheader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/event_detail_event_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:orientation="vertical"
-            android:padding="15dp">
+            android:layout_weight="1"
+            android:text="@string/event_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <TextView
-                android:id="@+id/event_detail_event_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/event_name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"/>
-
-        <TextView
-                android:id="@+id/event_detail_organiser_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/event_organiser"
-                android:textColor="@android:color/white"/>
+            android:id="@+id/event_detail_organiser_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/event_organiser"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
     <View
