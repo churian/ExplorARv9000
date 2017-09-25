@@ -24,6 +24,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".EventDetailsActivity">
+
+        </activity>
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
