@@ -139,8 +139,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng markerALatLng = new LatLng(-33.919728, 151.234095);
         Marker markerA = mMap.addMarker(new MarkerOptions()
                 .position(markerALatLng)
-                .title("This is an example event A")
-                .snippet("Event tag line"));
+                .title("SQL Workshop 101")
+                );
         markerA.showInfoWindow();
 
 //        // Add Marker B
@@ -148,7 +148,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        Marker markerB = mMap.addMarker(new MarkerOptions()
 //                .position(markerBLatLng)
 //                .title("This is an example event B")
-//                .snippet("Event tag line"));
+//                );
 //        markerB.showInfoWindow();
 
 
@@ -204,16 +204,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
-        String name= marker.getTitle();
+        String markerTitle = marker.getTitle();
 
-        if (name.equalsIgnoreCase("This is an example event A")) {
-            Toast.makeText(this, "Marker clicked - Example event A screen is opened", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Marker clicked - SQL Workshop 101 screen is opened", Toast.LENGTH_LONG).show();
 
-            //Intent to open example event A event details activity
+            //Create Intent to open example event A event details activity
             Intent openEventDetailsIntent = new Intent(MapsActivity.this, EventDetailsActivity.class);
+
+            //Put Title data into the Intent envelope
+            openEventDetailsIntent.putExtra(Intent.EXTRA_TEXT, markerTitle);
+
+            //Start the intent activity
             startActivity(openEventDetailsIntent);
 
-        }
+
         //TODO: repeat for other event titles
 
         return false;
@@ -222,7 +226,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onInfoWindowClick(Marker marker) {
         //TODO: Make this the same as onMarkerClick
-        Toast.makeText(this, "IW clicked - Example event A  is opened", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "IW clicked - SQL Workshop 101 is opened", Toast.LENGTH_LONG).show();
     }
 
     @Override  //Defines what happens when you click the location button

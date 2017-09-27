@@ -15,15 +15,15 @@ import model.Student;
 
 // this class is responsible for doing anything with the database
 
-public class DbHelper extends SQLiteOpenHelper {
+public class DbCreation extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1; //remember to update the version number when any database changes are made
     private static final String DATABASE_NAME = "app.db";
 
-    public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public DbCreation(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
-    public DbHelper(Context context)
+    public DbCreation(Context context)
     {
         super(context, DATABASE_NAME , null , DATABASE_VERSION);
     }
@@ -33,35 +33,38 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         final String SQL_CREATE_STUDENT_TABLE = "CREATE TABLE " +
                 DbContracts.studentDBentry.TABLE_NAME + " (" +
-                DbContracts.studentDBentry._ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DbContracts.studentDBentry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DbContracts.studentDBentry.COLUMN_zID + " TEXT NOT NULL, " +
                 DbContracts.studentDBentry.COLUMN_NAME_STUDENT + " TEXT NOT NULL, " +
                 DbContracts.studentDBentry.COLUMN_PASSWORD_STUDENT + " TEXT NOT NULL, " +
                 DbContracts.studentDBentry.COLUMN_EMAIL_STUDENT + " TEXT NOT NULL, " +
-                DbContracts.studentDBentry.COLUMN_DEGREE_STUDENT + "TEXT NOT NULL, " +
+                DbContracts.studentDBentry.COLUMN_DEGREE_STUDENT + "TEXT NOT NULL" +
                 ");";
 
         final String SQL_CREATE_ORGANISATIONS_TABLE = "CREATE TABLE " +
                 DbContracts.organisationsDBentry .TABLE_NAME + " (" +
-                DbContracts.organisationsDBentry ._ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DbContracts.organisationsDBentry ._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DbContracts.organisationsDBentry .COLUMN_NAME_ORG + " TEXT NOT NULL, " +
                 DbContracts.organisationsDBentry .COLUMN_PASSWORD_ORG + " TEXT NOT NULL, " +
-                DbContracts.organisationsDBentry .COLUMN_EMAIL_ORG + " TEXT NOT NULL," +
+                DbContracts.organisationsDBentry .COLUMN_EMAIL_ORG + " TEXT NOT NULL" +
                 ");";
+
+        //TODO: MIGHT NEED TO MAKE THIS A DATE FORMAT
 
         final String SQL_CREATE_EVENTS_TABLE = "CREATE TABLE " +
                 DbContracts.eventsDBentry .TABLE_NAME + " (" +
-                DbContracts.eventsDBentry ._ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DbContracts.eventsDBentry ._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DbContracts.eventsDBentry .COLUMN_NAME_EVENT + " TEXT NOT NULL, " +
                 DbContracts.eventsDBentry .COLUMN_NAME_HOSTORG + " TEXT NOT NULL, " +
                 DbContracts.eventsDBentry .COLUMN_LOCATION_EVENT + " TEXT NOT NULL," +
                 DbContracts.eventsDBentry .COLUMN_DATE_EVENT + " TEXT NOT NULL," +
-                DbContracts.eventsDBentry .COLUMN_TIME_EVENT + " TEXT NOT NULL," + //This needs to be a time range
+                DbContracts.eventsDBentry .COLUMN_STARTTIME_EVENT + " TEXT NOT NULL," +
+                DbContracts.eventsDBentry .COLUMN_ENDTIME_EVENT + " TEXT NOT NULL," +
                 DbContracts.eventsDBentry .COLUMN_PRICE_EVENT + " DOUBLE NOT NULL," +
                 DbContracts.eventsDBentry .COLUMN_NAME_DESCRIPTION + " TEXT NOT NULL, " +
                 DbContracts.eventsDBentry .COLUMN_LATITUDE_EVENT + " DOUBLE NOT NULL," +
                 DbContracts.eventsDBentry .COLUMN_LONGITUDE_EVENT + " DOUBLE NOT NULL," +
-                DbContracts.eventsDBentry .COLUMN_EVENT_TYPE + " TEXT NOT NULL," +
+                DbContracts.eventsDBentry .COLUMN_EVENT_TYPE + " TEXT NOT NULL" +
                 ");";
 
         sqLiteDatabase.execSQL(SQL_CREATE_STUDENT_TABLE);

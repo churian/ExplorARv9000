@@ -21,6 +21,7 @@ public final class DbContracts {
         public static final String COLUMN_EMAIL_STUDENT = "studentEmail";
         public static final String COLUMN_DEGREE_STUDENT = "studentDegree";
     }
+
     // organisation database contract
     public static class organisationsDBentry implements BaseColumns {
         public static final String TABLE_NAME = "organisationDB";
@@ -28,6 +29,7 @@ public final class DbContracts {
         public static final String COLUMN_PASSWORD_ORG = "organiserPassword";
         public static final String COLUMN_EMAIL_ORG = "organiserEmail";
     }
+
     // events database contract
     public static class eventsDBentry implements BaseColumns {
         public static final String TABLE_NAME = "eventsDB";
@@ -35,15 +37,15 @@ public final class DbContracts {
         public static final String COLUMN_NAME_HOSTORG = "hostOrganisation";
         public static final String COLUMN_LOCATION_EVENT = "eventLocation";
         public static final String COLUMN_DATE_EVENT = "eventDate";
-        public static final String COLUMN_TIME_EVENT = "eventTime";
-        public static final String COLUMN_PRICE_EVENT = "eventTime";
-        public static final String COLUMN_NAME_DESCRIPTION = "eventTime";
-        public static final String COLUMN_LATITUDE_EVENT = "eventTime";
-        public static final String COLUMN_LONGITUDE_EVENT = "eventTime";
+        public static final String COLUMN_STARTTIME_EVENT = "eventStartTime";
+        public static final String COLUMN_ENDTIME_EVENT = "eventEndTime";
+        public static final String COLUMN_PRICE_EVENT = "eventPice";
+        public static final String COLUMN_NAME_DESCRIPTION = "eventDescription";
+        public static final String COLUMN_LATITUDE_EVENT = "eventLatitude";
+        public static final String COLUMN_LONGITUDE_EVENT = "eventLongitude";
         public static final String COLUMN_EVENT_TYPE = "eventType";
-
-
     }
+
     //TODO: image db and temporary cache for google markers
 
 }
