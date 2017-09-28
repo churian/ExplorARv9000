@@ -16,7 +16,7 @@ public class OrganisationSignup extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.organiser_sign_up)
+        setContentView(R.layout.organiser_sign_up);
     }
 
     public void onSignUpClick(View v)
@@ -29,9 +29,8 @@ public class OrganisationSignup extends Activity {
 
             String oNamestr = oName.getText().toString();
             String oEmailstr = oEmail.getText().toString();
-            String oPasswordstr = oPassword.(getText().toString();
+            String oPasswordstr = oPassword.getText().toString();
 
-            Organization = new Organization();
         }
     }
 }
