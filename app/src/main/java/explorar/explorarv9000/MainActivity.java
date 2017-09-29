@@ -1,5 +1,6 @@
 package explorar.explorarv9000;
 
+import android.content.Intent;
 import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toast.makeText(this,"MAIN ACTIVITY IS EVOKED - SOMETING WENT WRONG", Toast.LENGTH_LONG).show();
     }
+    public void onButtonClick(View v) {
+        if(v.getId() == (R.id.organiser_login_button));
+        Intent i = new Intent(MainActivity.this, OrganizationLogin.class);
+        startActivity(i);
+    }
+
 
     //TODO: For Jenny's ListView Below - Ignore For Now
 

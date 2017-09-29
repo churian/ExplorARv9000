@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 import android.app.Activity;
 
+import model.Organization;
 import model.Student;
 
 /**
@@ -85,6 +86,32 @@ public class DbCreation extends SQLiteOpenHelper {
         // db.update(DbContracts.studentDBentry.TABLE_NAME, values, COLUMN_USER_ID + " = ?",
         //      new String[]{String.valueOf(s.getzID())});
 
+    }
+    //insert a new organisation row
+    public void insertOrganization(Organization o) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DbContracts.organisationsDBentry.COLUMN_NAME_ORG, o.getoName());
+        values.put(DbContracts.organisationsDBentry.COLUMN_EMAIL_ORG, o.getoEmail());
+        values.put(DbContracts.organisationsDBentry.COLUMN_PASSWORD_ORG, o.getoPassword());
+        db.insert(DbContracts.organisationsDBentry.TABLE_NAME, null, values);
+        db.close();
+    }
+    public String searchoPassword(String oName) {
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "Select oName, oPassword from "+DbContracts.organisationsDBentry.TABLE_NAME;
+        Cursor cursor = db.rawQuery(query,null);
+        String a,b;
+        b = "Not Found";
+        if(cursor.moveToFirst()) {
+            do {
+                a = cursor.getString(0);
+                b = cursor.getString(1);
+                break;
+            }
+            while(cursor.moveToNext());
+        }
+        return query;
     }
 
     // drops the current table and creates a new one when a new version is updated
