@@ -46,8 +46,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Cursor cursor;
     private double markerLat;
     private double markerLong;
+    private Marker marker;
+    private LatLng markerLatLng;
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mCurrentLocation;
+
 
     private static final int DEFAULT_ZOOM = 15;
     public static final String TAG = MapsActivity.class.getSimpleName();
@@ -126,6 +129,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        /*
+        Set up Google Map
+         */
+
         //set mMap to GoogleMap view
         mMap = googleMap;
 
@@ -135,34 +142,49 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.zoomTo(14.0f));
         //TODO: Would be nice to twist the orientation as well so that you look up main walkway
 
+        /*
+        Set up onClickListeners
+         */
+
         //setting up OnMarkerClickListener
         mMap.setOnMarkerClickListener(this);
 
         //setting up OnInfoWindowClickListener
         mMap.setOnInfoWindowClickListener(this);
 
-        //TODO: Markers that always show name (you need to create bitmap icons for this) and then when you click into it it pops up with the event details screen
-        // Create Marker A
-            //cursor move to position
-        cursor.moveToPosition(0);
-            //cursor get required data
-        markerLat = cursor.getDouble(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_LATITUDE_EVENT));
-        markerLong = cursor.getDouble(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_LONGITUDE_EVENT));
-        String eventName = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_NAME_EVENT));
-            //Create LatLng variable
-        LatLng markerALatLng = new LatLng(markerLat, markerLong);
-            //Plot Marker
-        Marker markerA = mMap.addMarker(new MarkerOptions()
-                .position(markerALatLng)
-                .title(eventName)
-                );
-            //Store the position of the cursor in the marker as a data object - we will need this later on for pulling more information about it in EventDetailsActivity
-        markerA.setTag(cursor.getPosition());
-            //showInfoWindow
-        markerA.showInfoWindow();
+        /*
+        Markers
+         */
 
-        //Marker B
-        //TODO: DB Markers
+        // Markers: Create Markers from DB
+            //Markers: Set cursor to position 0
+        cursor.moveToPosition(0);
+            //Markers: Create markers by iterating through database rows
+        while (cursor.isAfterLast() == false) {
+            //TODO: Markers that always show name (you need to create bitmap icons for this) and then when you click into it it pops up with the event details screen
+                //cursor get required data
+            markerLat = cursor.getDouble(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_LATITUDE_EVENT));
+            markerLong = cursor.getDouble(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_LONGITUDE_EVENT));
+            String eventName = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_NAME_EVENT));
+                //Create LatLng variable
+            markerLatLng = new LatLng(markerLat, markerLong);
+                //Plot Marker
+            marker = mMap.addMarker(new MarkerOptions()
+                    .position(markerLatLng)
+                    .title(eventName)
+            );
+                //Store the position of the cursor in the marker as a data object - we will need this later on for pulling more information about it in EventDetailsActivity
+            marker.setTag(cursor.getPosition());
+                //showInfoWindow
+            marker.showInfoWindow();
+                //move cursor to next position
+            Log.i("Michael", "The cursorPosition is " + cursor.getPosition());
+            cursor.moveToNext();
+            Log.i("Michael", "The cursorPosition is " + cursor.getPosition());
+        }
+
+
+
 
 
         //Checking for location permissions and enabling current location or requesting necessary permissions

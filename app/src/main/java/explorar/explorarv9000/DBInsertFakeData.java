@@ -50,8 +50,8 @@ public class DBInsertFakeData {
             cv.put(DbContracts.eventsDBentry.COLUMN_ENDTIME_EVENT, "4:00");
             cv.put(DbContracts.eventsDBentry.COLUMN_PRICE_EVENT, "$5");
             cv.put(DbContracts.eventsDBentry.COLUMN_NAME_DESCRIPTION, "Free Pizza!");
-            cv.put(DbContracts.eventsDBentry.COLUMN_LATITUDE_EVENT, "-33.919225");
-            cv.put(DbContracts.eventsDBentry.COLUMN_LONGITUDE_EVENT, "151.230394");
+            cv.put(DbContracts.eventsDBentry.COLUMN_LATITUDE_EVENT, "-33.915282");
+            cv.put(DbContracts.eventsDBentry.COLUMN_LONGITUDE_EVENT, "151.229160");
             cv.put(DbContracts.eventsDBentry.COLUMN_EVENT_TYPE , "WORKSHOP");
             list.add(cv);
             db.insert(DbContracts.eventsDBentry.TABLE_NAME, null, cv);
