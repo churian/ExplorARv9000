@@ -64,6 +64,10 @@ public class EventDetailsActivity extends AppCompatActivity {
         //DB Data: Move cursor to the row that your data is on
         cursor.moveToPosition(0); //TODO: Make this use markerTitle as a primary key and find the position of the row -- cursor tables start at 0
 
+        //DB Data: eventName
+        String eventName = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_NAME_EVENT));
+        Log.i("Michael", "eventName extracted is " + eventName);
+        
         //DB Data: hostOrg
         String hostOrg = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_NAME_HOSTORG));
         Log.i("Michael", "hostOrganisation extracted is " + hostOrg);
@@ -89,27 +93,41 @@ public class EventDetailsActivity extends AppCompatActivity {
         Log.i("Michael", "price extracted is " + price);
 
         //DB Data: description
-        String description = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_PRICE_EVENT));
+        String description = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_NAME_DESCRIPTION));
         Log.i("Michael", "price extracted is " + price);
 
         /*
         Set TextViews with Data from DB
          */
 
-        //eventname: Declare textview_event_detail_event_name field
+        //eventname: Declare textview_event_detail_event_name field and set TextView to markerTitle
         final TextView textview_event_detail_event_name = (TextView) findViewById(R.id.event_detail_event_name);
+        textview_event_detail_event_name.setText(eventName);
 
-        //eventname: set Textview to markerTitle
-        textview_event_detail_event_name.setText(markerTitle);
-
-
-        //hostOrg: Declare textview_event_detail_organiser_name field
+        //hostOrg: Declare textview_event_detail_organiser_name field and set TextView to hostOrg
         final TextView textview_event_detail_organiser_name = (TextView) findViewById(R.id.event_detail_organiser_name);
+        textview_event_detail_organiser_name.setText(hostOrg);
 
-        //Host: set Textview to hostOrg
+        //location: Declare textview_event_detail_location field and set TextView to location
+        final TextView textview_event_detail_location = (TextView) findViewById(R.id.event_detail_event_address);
+        textview_event_detail_location.setText(location);
 
-        //TODO: Continue doing this set all textviews - YOURE WORKING ON THIS RN
+        //date: Declare textview_event_detail_date field and set TextView to date
+        final TextView textview_event_detail_date = (TextView) findViewById(R.id.event_detail_event_date);
+        textview_event_detail_date.setText(date);
 
+        //time: Declare textview_event_detail_time field and set TextView to startTime - endTime
+        final TextView textview_event_detail_time = (TextView) findViewById(R.id.event_detail_event_time);
+        textview_event_detail_time.setText(startTime + " - " + endTime);
+
+        //price: Declare textview_event_detail_price field and set TextView to price
+        final TextView textview_event_detail_price = (TextView) findViewById(R.id.event_detail_event_price);
+        textview_event_detail_price.setText(price);
+
+        //description: Declare textview_event_detail_description field and set TextView to description
+        final TextView textview_event_detail_description = (TextView) findViewById(R.id.event_detail_description);
+        textview_event_detail_description.setText(description);
+        
         /*
         Event Detail Button - Maps
          */
