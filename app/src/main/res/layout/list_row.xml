@@ -42,11 +42,9 @@
 
         android:layout_height="wrap_content"
 
-        android:layout_alignParentRight="true"
-
-        android:layout_centerVertical="true"
-
-        android:src="@drawable/ic_keyboard_arrow_right_black_24px" />
+        android:src="@drawable/ic_keyboard_arrow_right_black_24px"
+        android:layout_alignBottom="@+id/list_row_event_title"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/list_row_event_title"

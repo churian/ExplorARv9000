@@ -16,7 +16,7 @@ public class OrganisationSignup extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.organiser_sign_up)
+        setContentView(R.layout.organiser_sign_up);
     }
 
     public void onSignUpClick(View v)
@@ -24,14 +24,14 @@ public class OrganisationSignup extends Activity {
         if(v.getId()== R.id.organiser_login_button)
         {
             EditText oName = (EditText)findViewById(R.id.organisation);
-            EditText oEmail = (EditText)findViewById(R.id.email);
-            EditText oPassword = (EditText)findViewById(R.id.password);
+            EditText oEmail = (EditText)findViewById(R.id.organiser_email);
+            EditText oPassword = (EditText)findViewById(R.id.organiser_password);
 
             String oNamestr = oName.getText().toString();
             String oEmailstr = oEmail.getText().toString();
-            String oPasswordstr = oPassword.(getText().toString();
+            String oPasswordstr = oPassword.getText().toString();
 
-            Organization = new Organization();
+            Organization o = new Organization();
         }
     }
 }
