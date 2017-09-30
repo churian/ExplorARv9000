@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 
 import android.os.Bundle;
@@ -37,23 +39,20 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
+    private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
-    public static final String TAG = MapsActivity.class.getSimpleName();
-    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private LocationRequest mLocationRequest;
-
-    private static final int DEFAULT_ZOOM = 15;
-
-
+    private SQLiteDatabase mDb;
+    private Cursor cursor;
+    private double markerLat;
+    private double markerLong;
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mCurrentLocation;
-//    private LocationCallback mLocationCallback;
 
-    private GoogleMap mMap;
-
+    private static final int DEFAULT_ZOOM = 15;
+    public static final String TAG = MapsActivity.class.getSimpleName();
+    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private static final int REQUEST_PERMISSION_ACCESS_FINE_LOCATION = 1000; //This is an abitrary int that is used in onRequestPermissionsResult for handling permission results
-
-//    private static final int REQUEST_CHECK_SETTINGS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +63,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
 
         // Create the LocationRequest object
         mLocationRequest = LocationRequest.create()
@@ -78,6 +76,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+
+        //initialiseDB
+        initialiseDB();
+
+        //insertFakeData TODO: Remove this when we have real data
+        insertFakeData();
+
+        //initiliaseCursor
+        initialiseCursor();
     }
 
     @Override //This handles the permission selection by user
@@ -135,29 +142,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnInfoWindowClickListener(this);
 
         //TODO: Markers that always show name (you need to create bitmap icons for this) and then when you click into it it pops up with the event details screen
-        // Add Marker A
-        LatLng markerALatLng = new LatLng(-33.919728, 151.234095);
+        // Create Marker A
+            //cursor move to position
+        cursor.moveToPosition(0);
+            //cursor get required data
+        markerLat = cursor.getDouble(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_LATITUDE_EVENT));
+        markerLong = cursor.getDouble(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_LONGITUDE_EVENT));
+        String eventName = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_NAME_EVENT));
+            //Create LatLng variable
+        LatLng markerALatLng = new LatLng(markerLat, markerLong);
+            //Plot Marker
         Marker markerA = mMap.addMarker(new MarkerOptions()
                 .position(markerALatLng)
-                .title("SQL Workshop 101")
+                .title(eventName)
                 );
+            //Store the position of the cursor in the marker as a data object - we will need this later on for pulling more information about it in EventDetailsActivity
+        markerA.setTag(cursor.getPosition());
+            //showInfoWindow
         markerA.showInfoWindow();
 
-//        // Add Marker B
-//        LatLng markerBLatLng = new LatLng(-33.916688, 151.227765);
-//        Marker markerB = mMap.addMarker(new MarkerOptions()
-//                .position(markerBLatLng)
-//                .title("This is an example event B")
-//                );
-//        markerB.showInfoWindow();
+        //Marker B
+        //TODO: DB Markers
 
-
-//        // Add Marker C
-//        LatLng markerCLatLng = new LatLng(-33.919225, 151.230394);
-//        mMap.addMarker(new MarkerOptions()
-//                .position(markerCLatLng)
-//                .title("This is an example event C")
-//                );
 
         //Checking for location permissions and enabling current location or requesting necessary permissions
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_ACCESS_FINE_LOCATION);
@@ -205,14 +211,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(final Marker marker) {
         String markerTitle = marker.getTitle();
-
-            Toast.makeText(this, "Marker clicked - SQL Workshop 101 screen is opened", Toast.LENGTH_LONG).show();
-
             //Create Intent to open example event A event details activity
             Intent openEventDetailsIntent = new Intent(MapsActivity.this, EventDetailsActivity.class);
 
-            //Put Title data into the Intent envelope
-            openEventDetailsIntent.putExtra(Intent.EXTRA_TEXT, markerTitle);
+            //Put cursor data into the Intent envelope
+            openEventDetailsIntent.putExtra(Intent.EXTRA_TEXT, marker.getTag().toString());
 
             //Start the intent activity
             startActivity(openEventDetailsIntent);
@@ -328,6 +331,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         handleNewLocation(location);
     }
 
+    private void initialiseDB(){
+        //DB: Create helper instance
+        DbCreation dbCreation = new DbCreation(this);
+
+        //DB: Get readable reference of database and store it in mDb
+        mDb = dbCreation.getWritableDatabase();
+        Log.i("Michael", "WritableDatabase has been created");
+    }
+
+    private void insertFakeData(){
+        //DB: Insert Fake Data
+        DBInsertFakeData.insertFakeData(mDb);
+        Log.i("Michael", "Fake Data has been inserted");
+    }
+
+    private void initialiseCursor(){
+        //DB: call getEventName() and put it in a cursor variable
+        cursor = mDb.rawQuery("Select * from " + DbContracts.eventsDBentry.TABLE_NAME + ";",null);
+        Log.i("Michael", "DB data has been inserted into cursor");
+    }
 }
 
 
