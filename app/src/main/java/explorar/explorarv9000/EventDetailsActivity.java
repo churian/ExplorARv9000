@@ -155,8 +155,8 @@ public class EventDetailsActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "No applications found to resolve activity", Toast.LENGTH_LONG).show();
                 }
             }
-        });
-
+        }
+        );
     }
 
 }

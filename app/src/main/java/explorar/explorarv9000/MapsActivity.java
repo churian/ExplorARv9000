@@ -235,7 +235,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
-        String markerTitle = marker.getTitle();
             //Create Intent to open example event A event details activity
             Intent openEventDetailsIntent = new Intent(MapsActivity.this, EventDetailsActivity.class);
 
