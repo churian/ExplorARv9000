@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:ems="10"
-        android:hint="E-mail"
+        android:hint="@string/hint_email"
         android:inputType="textEmailAddress" />
 
     <EditText
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/hint_password"
         android:inputType="textPassword" />
 
     <Button
@@ -57,15 +57,15 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:backgroundTint="@color/colorPrimary"
-        android:text="Login"
+        android:text="@string/text_login"
         android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/signup_link"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="45dp"
-        android:text="Or Sign Up"
+        android:layout_height="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/text_not_member"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textSize="14sp" />
@@ -73,7 +73,7 @@
     <TextView
         android:id="@+id/student_login_page"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginBottom="0dp"
         android:text="Student? Click here."
         android:textAlignment="center"

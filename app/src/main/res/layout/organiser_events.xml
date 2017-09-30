@@ -11,7 +11,7 @@
         android:layout_weight="0.03"
         android:background="@color/colorPrimary"
         android:padding="10dp"
-        android:text="@string/upcoming_events"
+        android:text="@string/your_events"
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
         android:textSize="24sp"
@@ -28,26 +28,4 @@
         android:layout_weight="1"
         android:paddingBottom="10dp" />
 
-    <TextView
-        android:id="@+id/organiser_events_past_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.03"
-        android:background="@color/colorPrimary"
-        android:padding="10dp"
-        android:text="@string/past_events"
-        android:textAlignment="center"
-        android:textColor="@color/colorWhite"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <ListView
-        android:id="@+id/organiser_events_past_list"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="7dp"
-        android:paddingBottom="10dp" />
 </LinearLayout>
