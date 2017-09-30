@@ -64,6 +64,16 @@ public class EventDetailsActivity extends AppCompatActivity {
         //DB Data: Move cursor to the row that your data is on
         cursor.moveToPosition(0); //TODO: Make this use markerTitle as a primary key and find the position of the row -- cursor tables start at 0
 
+//        while (cursor.getPosition() < 2) {
+//            for (int i = 0; i < 12; i++) {
+//                String data = cursor.getString(i);
+//                Log.i("Michael", "cursor data at " + i + " is: " + data);
+//            }
+//            Log.i("Michael", "cursor position is " + cursor.getPosition());
+//            cursor.moveToNext();
+//        }
+
+
         //DB Data: eventName
         String eventName = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_NAME_EVENT));
         Log.i("Michael", "eventName extracted is " + eventName);
@@ -95,6 +105,9 @@ public class EventDetailsActivity extends AppCompatActivity {
         //DB Data: description
         String description = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_NAME_DESCRIPTION));
         Log.i("Michael", "price extracted is " + price);
+
+        //Close cursor
+        cursor.close();
 
         /*
         Set TextViews with Data from DB
@@ -129,7 +142,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         textview_event_detail_description.setText(description);
         
         /*
-        Event Detail Button - Maps
+        Create event_detail_button - Maps Directions
          */
 
         //eventdetailbutton: Declare event_detail_button
