@@ -12,6 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by michaelliang on 25/9/17.
  */
@@ -76,7 +81,19 @@ public class EventDetailsActivity extends AppCompatActivity {
 
         //DB Data: date
         String date = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_DATE_EVENT));
-        Log.i("Michael", "Date extracted is " + date);
+
+        //convert string value to date
+        String dateString = DbContracts.eventsDBentry .COLUMN_DATE_EVENT;
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date eventDate;
+        try {
+            eventDate = formatter.parse(dateString);
+            String newDateString = formatter.format(eventDate);
+            System.out.println(newDateString);
+            Log.i("Michael", "Date extracted is " + newDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         //DB Data: startTime
         String startTime = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_STARTTIME_EVENT));

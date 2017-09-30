@@ -6,6 +6,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 import android.app.Activity;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.text.ParseException;
 
 import model.Organization;
 import model.Student;
@@ -13,6 +17,7 @@ import model.Student;
 /**
  * Created by benja on 17/09/2017.
  */
+
 
 // this class is responsible for doing anything with the database
 
@@ -52,13 +57,17 @@ public class DbCreation extends SQLiteOpenHelper {
 
         //TODO: MIGHT NEED TO MAKE THIS A DATE FORMAT
 
+
+        // convert datestring to dateformat but not sure if it show up on the db.
+
+
         final String SQL_CREATE_EVENTS_TABLE = "CREATE TABLE " +
                 DbContracts.eventsDBentry .TABLE_NAME + " (" +
                 DbContracts.eventsDBentry ._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DbContracts.eventsDBentry .COLUMN_NAME_EVENT + " TEXT NOT NULL, " +
                 DbContracts.eventsDBentry .COLUMN_NAME_HOSTORG + " TEXT NOT NULL, " +
                 DbContracts.eventsDBentry .COLUMN_LOCATION_EVENT + " TEXT NOT NULL," +
-                DbContracts.eventsDBentry .COLUMN_DATE_EVENT + " TEXT NOT NULL," +
+                DbContracts.eventsDBentry .COLUMN_DATE_EVENT  + " TEXT NOT NULL," +
                 DbContracts.eventsDBentry .COLUMN_STARTTIME_EVENT + " TEXT NOT NULL," +
                 DbContracts.eventsDBentry .COLUMN_ENDTIME_EVENT + " TEXT NOT NULL," +
                 DbContracts.eventsDBentry .COLUMN_PRICE_EVENT + " DOUBLE NOT NULL," +
@@ -67,6 +76,7 @@ public class DbCreation extends SQLiteOpenHelper {
                 DbContracts.eventsDBentry .COLUMN_LONGITUDE_EVENT + " DOUBLE NOT NULL," +
                 DbContracts.eventsDBentry .COLUMN_EVENT_TYPE + " TEXT NOT NULL" +
                 ");";
+
 
         sqLiteDatabase.execSQL(SQL_CREATE_STUDENT_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_ORGANISATIONS_TABLE);
@@ -97,6 +107,12 @@ public class DbCreation extends SQLiteOpenHelper {
         db.insert(DbContracts.organisationsDBentry.TABLE_NAME, null, values);
         db.close();
     }
+    // TODO: insert a new events row
+    public void insertEvents() {
+
+    }
+    
+
     public String searchoPassword(String oName) {
         SQLiteDatabase db = getReadableDatabase();
         String query = "Select oName, oPassword from "+DbContracts.organisationsDBentry.TABLE_NAME;

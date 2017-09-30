@@ -1,6 +1,7 @@
 package explorar.explorarv9000;
 
 import android.provider.BaseColumns;
+import java.lang.Integer;
 import java.util.GregorianCalendar;
 import java.util.Date;
 
@@ -47,5 +48,11 @@ public final class DbContracts {
     }
 
     //TODO: image db and temporary cache for google markers
+    public static class imageDB implements BaseColumns {
+        public static final String TABLE_NAME = "imageDB";
+        public static final String COLUMN_NAME_IMAGE = "imageName";
+        public static final String COLUMN_BLOB_IMAGE = "imageBlob";
+    }
+
 
 }
