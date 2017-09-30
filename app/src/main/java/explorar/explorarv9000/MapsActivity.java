@@ -31,6 +31,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -172,26 +173,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             marker = mMap.addMarker(new MarkerOptions()
                     .position(markerLatLng)
                     .title(eventName)
+//                    .icon(BitmapDescriptorFactory.fromResource() TODO: Waiting on jenny to create the custom icon
             );
                 //Store the position of the cursor in the marker as a data object - we will need this later on for pulling more information about it in EventDetailsActivity
             marker.setTag(cursor.getPosition());
                 //showInfoWindow
             marker.showInfoWindow();
                 //move cursor to next position
-            Log.i("Michael", "The cursorPosition is " + cursor.getPosition());
+            Log.i("Michael", "The current cursorPosition is " + cursor.getPosition());
             cursor.moveToNext();
-            Log.i("Michael", "The cursorPosition is " + cursor.getPosition());
+            Log.i("Michael", "The next cursorPosition is " + cursor.getPosition());
         }
 
-
-
-
+        /*
+        Permissions
+         */
 
         //Checking for location permissions and enabling current location or requesting necessary permissions
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_ACCESS_FINE_LOCATION);
 
-        //Remove the location icon on the top right
-        //mMap.getUiSettings().setMyLocationButtonEnabled(false); //TODO : Once finished and if location is automatic, Remove the location button in the top right
+        /*
+        Location Button Click Toast
+         */
 
         //Setting Toast to appear on location button click
         mMap.setOnMyLocationButtonClickListener(this);
@@ -241,9 +244,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             //Start the intent activity
             startActivity(openEventDetailsIntent);
-
-
-        //TODO: repeat for other event titles
 
         return false;
     }
@@ -366,7 +366,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //DB: Insert Fake Data
         DBInsertFakeData.insertFakeData(mDb);
         Log.i("Michael", "Fake Data has been inserted");
-    }
+    } //TODO: Remove this when we connect database from organisation side
 
     private void initialiseCursor(){
         //DB: call getEventName() and put it in a cursor variable
