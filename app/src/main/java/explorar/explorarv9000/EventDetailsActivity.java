@@ -19,7 +19,7 @@ import android.widget.Toast;
 public class EventDetailsActivity extends AppCompatActivity {
 
     private SQLiteDatabase mDb;
-    private String markerTitle;
+    private int cursorPosition;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,9 +33,11 @@ public class EventDetailsActivity extends AppCompatActivity {
         //Intent: Get Intent
         Intent mapsActivityIntentThatStartedActivity = getIntent();
 
-        //Intent: Get Information that was packaged in it
+        //Intent: Get Information that was packaged in it TODO: DELETE THIS AS WE DON'T NEED THIS ANYMORE
         if (mapsActivityIntentThatStartedActivity.hasExtra(Intent.EXTRA_TEXT)){
-            markerTitle = mapsActivityIntentThatStartedActivity.getStringExtra(Intent.EXTRA_TEXT);
+            cursorPosition = Integer.parseInt(mapsActivityIntentThatStartedActivity.getStringExtra(Intent.EXTRA_TEXT));
+            Log.i("Michael", "The cursorPosition is " + cursorPosition);
+
         }
 
         /*
@@ -49,10 +51,6 @@ public class EventDetailsActivity extends AppCompatActivity {
         mDb = dbCreation.getWritableDatabase();
         Log.i("Michael", "WritableDatabase has been created");
 
-        //DB: Insert Fake Data
-        DBInsertFakeData.insertFakeData(mDb);
-        Log.i("Michael", "Fake Data has been inserted");
-
         //DB: call getEventName() and put it in a cursor variable
         Cursor cursor = mDb.rawQuery("Select * from " + DbContracts.eventsDBentry.TABLE_NAME + ";",null);
         Log.i("Michael", "DB data has been inserted into cursor");
@@ -62,17 +60,7 @@ public class EventDetailsActivity extends AppCompatActivity {
          */
 
         //DB Data: Move cursor to the row that your data is on
-        cursor.moveToPosition(0); //TODO: Make this use markerTitle as a primary key and find the position of the row -- cursor tables start at 0
-
-//        while (cursor.getPosition() < 2) {
-//            for (int i = 0; i < 12; i++) {
-//                String data = cursor.getString(i);
-//                Log.i("Michael", "cursor data at " + i + " is: " + data);
-//            }
-//            Log.i("Michael", "cursor position is " + cursor.getPosition());
-//            cursor.moveToNext();
-//        }
-
+        cursor.moveToPosition(cursorPosition); //TODO: Make this use markerTitle as a primary key and find the position of the row -- cursor tables start at 0
 
         //DB Data: eventName
         String eventName = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_NAME_EVENT));
