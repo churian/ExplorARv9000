@@ -87,6 +87,22 @@ public class DbCreation extends SQLiteOpenHelper {
         //      new String[]{String.valueOf(s.getzID())});
 
     }
+    public String searchsPassword(String email) {
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "Select sEmail, sPassword from "+DbContracts.studentDBentry.TABLE_NAME;
+        Cursor cursor = db.rawQuery(query,null);
+        String a,b;
+        b = "Not Found";
+        if(cursor.moveToFirst()) {
+            do {
+                a = cursor.getString(0);
+                b = cursor.getString(1);
+                break;
+            }
+            while(cursor.moveToNext());
+        }
+        return query;
+    }
     //insert a new organisation row
     public void insertOrganization(Organization o) {
         SQLiteDatabase db = this.getWritableDatabase();

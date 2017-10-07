@@ -34,7 +34,7 @@ public class OrganizationLogin extends MainActivity {
         String name = a.getText().toString();
         EditText b = (EditText)findViewById(R.id.organiser_password);
         String pass = b.getText().toString();
-        String oPassword = helper.searchoPassword(str);
+        String oPassword = helper.searchoPassword(pass);
         if(pass.equals(oPassword)) {
             Intent i = new Intent(OrganizationLogin.this,OrganizerHome.class);
             startActivity(i);
