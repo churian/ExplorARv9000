@@ -12,6 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by michaelliang on 25/9/17.
  */
@@ -19,7 +24,7 @@ import android.widget.Toast;
 public class EventDetailsActivity extends AppCompatActivity {
 
     private SQLiteDatabase mDb;
-    private String markerTitle;
+    private int cursorPosition;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,9 +38,11 @@ public class EventDetailsActivity extends AppCompatActivity {
         //Intent: Get Intent
         Intent mapsActivityIntentThatStartedActivity = getIntent();
 
-        //Intent: Get Information that was packaged in it
+        //Intent: Get Information that was packaged in it TODO: DELETE THIS AS WE DON'T NEED THIS ANYMORE
         if (mapsActivityIntentThatStartedActivity.hasExtra(Intent.EXTRA_TEXT)){
-            markerTitle = mapsActivityIntentThatStartedActivity.getStringExtra(Intent.EXTRA_TEXT);
+            cursorPosition = Integer.parseInt(mapsActivityIntentThatStartedActivity.getStringExtra(Intent.EXTRA_TEXT));
+            Log.i("Michael", "The cursorPosition is " + cursorPosition);
+
         }
 
         /*
@@ -49,10 +56,6 @@ public class EventDetailsActivity extends AppCompatActivity {
         mDb = dbCreation.getWritableDatabase();
         Log.i("Michael", "WritableDatabase has been created");
 
-        //DB: Insert Fake Data
-        DBInsertFakeData.insertFakeData(mDb);
-        Log.i("Michael", "Fake Data has been inserted");
-
         //DB: call getEventName() and put it in a cursor variable
         Cursor cursor = mDb.rawQuery("Select * from " + DbContracts.eventsDBentry.TABLE_NAME + ";",null);
         Log.i("Michael", "DB data has been inserted into cursor");
@@ -62,8 +65,12 @@ public class EventDetailsActivity extends AppCompatActivity {
          */
 
         //DB Data: Move cursor to the row that your data is on
-        cursor.moveToPosition(0); //TODO: Make this use markerTitle as a primary key and find the position of the row -- cursor tables start at 0
+        cursor.moveToPosition(cursorPosition); //TODO: Make this use markerTitle as a primary key and find the position of the row -- cursor tables start at 0
 
+        //DB Data: eventName
+        String eventName = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_NAME_EVENT));
+        Log.i("Michael", "eventName extracted is " + eventName);
+        
         //DB Data: hostOrg
         String hostOrg = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_NAME_HOSTORG));
         Log.i("Michael", "hostOrganisation extracted is " + hostOrg);
@@ -74,7 +81,19 @@ public class EventDetailsActivity extends AppCompatActivity {
 
         //DB Data: date
         String date = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_DATE_EVENT));
-        Log.i("Michael", "Date extracted is " + date);
+
+        //convert string value to date
+        String dateString = DbContracts.eventsDBentry .COLUMN_DATE_EVENT;
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date eventDate;
+        try {
+            eventDate = formatter.parse(dateString);
+            String newDateString = formatter.format(eventDate);
+            System.out.println(newDateString);
+            Log.i("Michael", "Date extracted is " + newDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         //DB Data: startTime
         String startTime = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_STARTTIME_EVENT));
@@ -89,29 +108,46 @@ public class EventDetailsActivity extends AppCompatActivity {
         Log.i("Michael", "price extracted is " + price);
 
         //DB Data: description
-        String description = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_PRICE_EVENT));
+        String description = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_NAME_DESCRIPTION));
         Log.i("Michael", "price extracted is " + price);
+
+        //Close cursor
+        cursor.close();
 
         /*
         Set TextViews with Data from DB
          */
 
-        //eventname: Declare textview_event_detail_event_name field
+        //eventname: Declare textview_event_detail_event_name field and set TextView to markerTitle
         final TextView textview_event_detail_event_name = (TextView) findViewById(R.id.event_detail_event_name);
+        textview_event_detail_event_name.setText(eventName);
 
-        //eventname: set Textview to markerTitle
-        textview_event_detail_event_name.setText(markerTitle);
-
-
-        //hostOrg: Declare textview_event_detail_organiser_name field
+        //hostOrg: Declare textview_event_detail_organiser_name field and set TextView to hostOrg
         final TextView textview_event_detail_organiser_name = (TextView) findViewById(R.id.event_detail_organiser_name);
+        textview_event_detail_organiser_name.setText(hostOrg);
 
-        //Host: set Textview to hostOrg
+        //location: Declare textview_event_detail_location field and set TextView to location
+        final TextView textview_event_detail_location = (TextView) findViewById(R.id.event_detail_event_address);
+        textview_event_detail_location.setText(location);
 
-        //TODO: Continue doing this set all textviews - YOURE WORKING ON THIS RN
+        //date: Declare textview_event_detail_date field and set TextView to date
+        final TextView textview_event_detail_date = (TextView) findViewById(R.id.event_detail_event_date);
+        textview_event_detail_date.setText(date);
 
+        //time: Declare textview_event_detail_time field and set TextView to startTime - endTime
+        final TextView textview_event_detail_time = (TextView) findViewById(R.id.event_detail_event_time);
+        textview_event_detail_time.setText(startTime + " - " + endTime);
+
+        //price: Declare textview_event_detail_price field and set TextView to price
+        final TextView textview_event_detail_price = (TextView) findViewById(R.id.event_detail_event_price);
+        textview_event_detail_price.setText(price);
+
+        //description: Declare textview_event_detail_description field and set TextView to description
+        final TextView textview_event_detail_description = (TextView) findViewById(R.id.event_detail_description);
+        textview_event_detail_description.setText(description);
+        
         /*
-        Event Detail Button - Maps
+        Create event_detail_button - Maps Directions
          */
 
         //eventdetailbutton: Declare event_detail_button

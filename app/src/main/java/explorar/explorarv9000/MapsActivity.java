@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -37,23 +40,23 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
+    private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
-    public static final String TAG = MapsActivity.class.getSimpleName();
-    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private LocationRequest mLocationRequest;
-
-    private static final int DEFAULT_ZOOM = 15;
-
-
+    private SQLiteDatabase mDb;
+    private Cursor cursor;
+    private double markerLat;
+    private double markerLong;
+    private Marker marker;
+    private LatLng markerLatLng;
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mCurrentLocation;
-//    private LocationCallback mLocationCallback;
 
-    private GoogleMap mMap;
 
+    private static final int DEFAULT_ZOOM = 15;
+    public static final String TAG = MapsActivity.class.getSimpleName();
+    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private static final int REQUEST_PERMISSION_ACCESS_FINE_LOCATION = 1000; //This is an abitrary int that is used in onRequestPermissionsResult for handling permission results
-
-//    private static final int REQUEST_CHECK_SETTINGS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
 
         // Create the LocationRequest object
         mLocationRequest = LocationRequest.create()
@@ -78,6 +80,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+
+        //initialiseDB
+        initialiseDB();
+
+        //insertFakeData TODO: Remove this when we have real data
+        insertFakeData();
+
+        //initiliaseCursor
+        initialiseCursor();
     }
 
     @Override //This handles the permission selection by user
@@ -119,6 +130,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        /*
+        Set up Google Map
+         */
+
         //set mMap to GoogleMap view
         mMap = googleMap;
 
@@ -128,42 +143,58 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.zoomTo(14.0f));
         //TODO: Would be nice to twist the orientation as well so that you look up main walkway
 
+        /*
+        Set up onClickListeners
+         */
+
         //setting up OnMarkerClickListener
         mMap.setOnMarkerClickListener(this);
 
         //setting up OnInfoWindowClickListener
         mMap.setOnInfoWindowClickListener(this);
 
-        //TODO: Markers that always show name (you need to create bitmap icons for this) and then when you click into it it pops up with the event details screen
-        // Add Marker A
-        LatLng markerALatLng = new LatLng(-33.919728, 151.234095);
-        Marker markerA = mMap.addMarker(new MarkerOptions()
-                .position(markerALatLng)
-                .title("SQL Workshop 101")
-                );
-        markerA.showInfoWindow();
+        /*
+        Markers
+         */
 
-//        // Add Marker B
-//        LatLng markerBLatLng = new LatLng(-33.916688, 151.227765);
-//        Marker markerB = mMap.addMarker(new MarkerOptions()
-//                .position(markerBLatLng)
-//                .title("This is an example event B")
-//                );
-//        markerB.showInfoWindow();
+        // Markers: Create Markers from DB
+            //Markers: Set cursor to position 0
+        cursor.moveToPosition(0);
+            //Markers: Create markers by iterating through database rows
+        while (cursor.isAfterLast() == false) {
+            //TODO: Markers that always show name (you need to create bitmap icons for this) and then when you click into it it pops up with the event details screen
+                //cursor get required data
+            markerLat = cursor.getDouble(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_LATITUDE_EVENT));
+            markerLong = cursor.getDouble(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_LONGITUDE_EVENT));
+            String eventName = cursor.getString(cursor.getColumnIndex(DbContracts.eventsDBentry.COLUMN_NAME_EVENT));
+                //Create LatLng variable
+            markerLatLng = new LatLng(markerLat, markerLong);
+                //Plot Marker
+            marker = mMap.addMarker(new MarkerOptions()
+                    .position(markerLatLng)
+                    .title(eventName)
+//                    .icon(BitmapDescriptorFactory.fromResource() TODO: Waiting on jenny to create the custom icon
+            );
+                //Store the position of the cursor in the marker as a data object - we will need this later on for pulling more information about it in EventDetailsActivity
+            marker.setTag(cursor.getPosition());
+                //showInfoWindow
+            marker.showInfoWindow();
+                //move cursor to next position
+            Log.i("Michael", "The current cursorPosition is " + cursor.getPosition());
+            cursor.moveToNext();
+            Log.i("Michael", "The next cursorPosition is " + cursor.getPosition());
+        }
 
-
-//        // Add Marker C
-//        LatLng markerCLatLng = new LatLng(-33.919225, 151.230394);
-//        mMap.addMarker(new MarkerOptions()
-//                .position(markerCLatLng)
-//                .title("This is an example event C")
-//                );
+        /*
+        Permissions
+         */
 
         //Checking for location permissions and enabling current location or requesting necessary permissions
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_ACCESS_FINE_LOCATION);
 
-        //Remove the location icon on the top right
-        //mMap.getUiSettings().setMyLocationButtonEnabled(false); //TODO : Once finished and if location is automatic, Remove the location button in the top right
+        /*
+        Location Button Click Toast
+         */
 
         //Setting Toast to appear on location button click
         mMap.setOnMyLocationButtonClickListener(this);
@@ -205,20 +236,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(final Marker marker) {
         String markerTitle = marker.getTitle();
-
-            Toast.makeText(this, "Marker clicked - SQL Workshop 101 screen is opened", Toast.LENGTH_LONG).show();
-
             //Create Intent to open example event A event details activity
             Intent openEventDetailsIntent = new Intent(MapsActivity.this, EventDetailsActivity.class);
 
-            //Put Title data into the Intent envelope
-            openEventDetailsIntent.putExtra(Intent.EXTRA_TEXT, markerTitle);
+            //Put cursor data into the Intent envelope
+            openEventDetailsIntent.putExtra(Intent.EXTRA_TEXT, marker.getTag().toString());
 
             //Start the intent activity
             startActivity(openEventDetailsIntent);
-
-
-        //TODO: repeat for other event titles
 
         return false;
     }
@@ -328,6 +353,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         handleNewLocation(location);
     }
 
+    private void initialiseDB(){
+        //DB: Create helper instance
+        DbCreation dbCreation = new DbCreation(this);
+
+        //DB: Get readable reference of database and store it in mDb
+        mDb = dbCreation.getWritableDatabase();
+        Log.i("Michael", "WritableDatabase has been created");
+    }
+
+    private void insertFakeData(){
+        //DB: Insert Fake Data
+        DBInsertFakeData.insertFakeData(mDb);
+        Log.i("Michael", "Fake Data has been inserted");
+    } //TODO: Remove this when we connect database from organisation side
+
+    private void initialiseCursor(){
+        //DB: call getEventName() and put it in a cursor variable
+        cursor = mDb.rawQuery("Select * from " + DbContracts.eventsDBentry.TABLE_NAME + ";",null);
+        Log.i("Michael", "DB data has been inserted into cursor");
+    }
 }
 
 
